@@ -1,0 +1,3 @@
+C:/Users/Gavin/CLionProjects/CS236Project1/build/CMakeFiles/CS236Project1.dir
+C:/Users/Gavin/CLionProjects/CS236Project1/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Gavin/CLionProjects/CS236Project1/build/CMakeFiles/ZERO_CHECK.dir
