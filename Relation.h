@@ -59,7 +59,7 @@ public:
         Relation output;
         output.setName(name);
         output.setScheme(scheme);
-
+//hello
         for (unsigned int i; i < tuples.size(); i++)
         {
             for (unsigned int i; i < colsToKeep.size(); i++)
