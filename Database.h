@@ -36,8 +36,7 @@ public:
     string toString() {
         stringstream out;
         for (pair<string, Relation> relationEntry : dataMap) {
-            out << relationEntry.first;
-            out << endl;
+            out << relationEntry.first << endl;
             out << relationEntry.second.toString();
         }
         return out.str();

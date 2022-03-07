@@ -41,6 +41,17 @@ public:
         return ss.str();
         }
 
+    const string &getName() const {
+        return name;
+    }
+
+    void setName(const string &name) {
+        Predicate::name = name;
+    }
+
+    void setParameters(const vector<Parameter> &parameters) {
+        Predicate::parameters = parameters;
+    }
 };
 
 

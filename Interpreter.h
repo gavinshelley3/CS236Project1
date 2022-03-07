@@ -17,9 +17,9 @@ public:
 
     void run() {
 //          Evaluate Schemes
-
+    evalSchemes();
 //          Evaluate Facts
-
+    evalFacts();
 //          Evaluate Rules
 
 //          Evaluate Queries
@@ -27,6 +27,16 @@ public:
     }
 
     void evalSchemes() {
+        for (Predicate p : program.getSchemes()) {
+            Relation newRelation;
+            vector<string> contents;
+            for (Parameter param : p.getParameters()) {
+                contents.push_back(param.toString());
+            }
+            newRelation.setScheme(Scheme(contents));
+            newRelation.setName(p.getName());
+        }
+
 //     For each scheme s in program.schemes
 //          Make a new relation
 //          Make a new scheme newScheme

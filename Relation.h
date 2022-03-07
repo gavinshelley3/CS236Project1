@@ -56,20 +56,25 @@ public:
 
     Relation project(vector<unsigned int> colsToKeep)
     {
+        set<Tuple>::const_iterator it;
         Relation output;
         output.setName(name);
         output.setScheme(scheme);
-//hello
-        for (unsigned int i; i < tuples.size(); i++)
-        {
-            for (unsigned int i; i < colsToKeep.size(); i++)
-            {
-                if (colsToKeep.at(i) == tuple.at(i))
-                {
-                    output.addTuple(tuple);
-                }
-            }
-        }
+//        for(it = Tuple_set.begin(); it != output_set.end(); it++)
+//        {
+//            outstream_1 << *it << endl;
+//        }
+//        for (unsigned int i; i < tuples.size(); i++)
+//        {
+////            for (unsigned int i; i < colsToKeep.size(); i++)
+////            {
+////                cout << output << endl;
+//////                if (colsToKeep.at(i) == tuple.at(i))
+//////                {
+//////                    output.addTuple(tuple);
+//////                }
+////            }
+//        }
         return output;
     }
 
