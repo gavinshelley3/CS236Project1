@@ -95,7 +95,34 @@ public:
 
 
     Relation evaluatePredicate(Predicate predicate) {
-
+        Relation currRelation = database.getRelationCopy(predicate.getName());
+        vector<unsigned int> colsToKeep;
+        vector<string> names;
+        for (unsigned int i = 0; i < predicate.getParameters().size(); i++) {
+            Parameter currParem = predicate.getParameters().at(i);
+            if (currParem.toString().at(0) == '\'') {
+                currRelation = currRelation.select(i, currParem.toString());
+            }
+            else {
+                bool seenBefore = false;
+                //loop that checks through names and if currParam is found set seenBefore to true
+                for (unsigned int j = 0; j < names.size(); j++) {
+                    if (predicate.getParameters().at(i).toString() == names.at(j)) {
+                        seenBefore = true;
+                    }
+                    if (seenBefore) {
+                        currRelation = currRelation.select(i, j);
+                    }
+                    else {
+                        colsToKeep.push_back(i);
+                        names.push_back(currParem.toString());
+                    }
+                }
+            }
+        }
+        //project(colToKeep)
+        //rename(names)
+        return currRelation;
     }
 };
 

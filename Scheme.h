@@ -6,7 +6,6 @@
 #define CS236PROJECT1_SCHEME_H
 #include <vector>
 #include <string>
-//#include "Tuple.h"
 using namespace std;
 
 class Scheme : public vector<string> {

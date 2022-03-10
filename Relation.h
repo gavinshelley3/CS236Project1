@@ -8,7 +8,6 @@
 #include <string>
 #include <set>
 #include "Tuple.h"
-//#include "Scheme.h"
 using namespace std;
 
 class Relation
