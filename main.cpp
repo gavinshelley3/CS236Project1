@@ -95,10 +95,19 @@ int main(int argc, char *argv[])
     cout << "relation:" << endl;
     cout << relation.toString();
 
-    Relation result = relation.select(0, 1);
+    Relation result = relation.select(2, "'CS'");
+    vector<unsigned int> projectVec = {{0},{2}};
+    Relation projection = relation.project(projectVec);
+    Relation projectionSelect = result.project(projectVec);
+
 
     cout << "select Major='CS' result:" << endl;
     cout << result.toString();
+    cout << "project {0,1} result:" << endl;
+    cout << projection.toString();
+    cout << "projectSelect {0,1} result:" << endl;
+    cout << projectionSelect.toString();
+
 //    cout << Database.toString();
     return 0;
 }
