@@ -78,32 +78,40 @@ public:
 
     string toString() {
         stringstream ss;
-        set domain = getDomain();
-        ss << "Schemes(" << schemes.size() << "):" << endl;
-        for (unsigned int i = 0; i < schemes.size(); i++) {
-            ss << "  " << schemes.at(i).toString() << endl;
-        }
-
-        ss << "Facts(" << facts.size() << "):" << endl;
-        for (unsigned int i = 0; i < facts.size(); i++) {
-            ss << "  " << facts.at(i).toString() << "." << endl;
-        }
-
-        ss << "Rules(" << rules.size() << "):" << endl;
-        for (unsigned int i = 0; i < rules.size(); i++) {
-            ss << "  " << rules.at(i).toString() << "." << endl;
-        }
-
         ss << "Queries(" << queries.size() << "):" << endl;
         for (unsigned int i = 0; i < queries.size(); i++) {
-            ss << "  " << queries.at(i).toString() << "?" << endl;
+            ss << queries.at(i).toString() << "?" << endl;
+            ss << " " << endl;
         }
 
-        ss << "Domain(" << domain.size() << "):" << endl;
-        set<string>::iterator itr;
-        for (itr = domain.begin(); itr != domain.end(); itr++) {
-            ss << "  " << *itr << endl;
-        }
+
+
+//        set domain = getDomain();
+//        ss << "Schemes(" << schemes.size() << "):" << endl;
+//        for (unsigned int i = 0; i < schemes.size(); i++) {
+//            ss << "  " << schemes.at(i).toString() << endl;
+//        }
+//
+//        ss << "Facts(" << facts.size() << "):" << endl;
+//        for (unsigned int i = 0; i < facts.size(); i++) {
+//            ss << "  " << facts.at(i).toString() << "." << endl;
+//        }
+//
+//        ss << "Rules(" << rules.size() << "):" << endl;
+//        for (unsigned int i = 0; i < rules.size(); i++) {
+//            ss << "  " << rules.at(i).toString() << "." << endl;
+//        }
+//
+//        ss << "Queries(" << queries.size() << "):" << endl;
+//        for (unsigned int i = 0; i < queries.size(); i++) {
+//            ss << "  " << queries.at(i).toString() << "?" << endl;
+//        }
+//
+//        ss << "Domain(" << domain.size() << "):" << endl;
+//        set<string>::iterator itr;
+//        for (itr = domain.begin(); itr != domain.end(); itr++) {
+//            ss << "  " << *itr << endl;
+//        }
 
         return ss.str();
     }

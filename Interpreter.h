@@ -35,6 +35,7 @@ public:
             }
             newRelation.setScheme(Scheme(contents));
             newRelation.setName(p.getName());
+            database.insert(newRelation);
         }
 
 //     For each scheme s in program.schemes
@@ -48,6 +49,14 @@ public:
     }
 
     void evalFacts() {
+        for (Predicate p : program.getFacts()) {
+            Relation r = database.getRelationByRef(p.getName());
+            vector<string> contents;
+            for (Parameter param : p.getParameters()) {
+                contents.push_back(param.toString());
+            }
+            r.addTuple(Tuple{contents});
+        }
 //     For each fact f in program.facts
 //          Get relation r by reference from the database
 //          Make a new tuple t
@@ -67,7 +76,13 @@ public:
 //          Add r to database
     }
 
+
     void evalQueries() {
+        for (Predicate p : program.getQueries()) {
+            evaluatePredicate(p);
+            Relation r = evaluatePredicate(p);
+            cout << r.toString();
+        }
 //          For each scheme s in program.schemes
 //          Make a new relation
 //          Make a new scheme newScheme
@@ -76,6 +91,11 @@ public:
 //          Add p.toString into newScheme
 //          Add newScheme into r
 //          Add r to database
+    }
+
+
+    Relation evaluatePredicate(Predicate predicate) {
+
     }
 };
 

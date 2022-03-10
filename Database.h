@@ -20,8 +20,8 @@ public:
         return dataMap.at(relName);
     }
 
-    void insert(string relName, Relation r) {
-        dataMap.insert({relName, r});
+    void insert(Relation r) {
+        dataMap.insert({r.getName(), r});
     }
 
     unsigned int numTuples() {
