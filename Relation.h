@@ -19,6 +19,8 @@ private:
     set<Tuple> tuples;
 
 public:
+    Relation(const string &name, const Scheme &scheme, const set<Tuple> &tuples) : name(name), scheme(scheme), tuples(tuples) {}
+
     Relation(const string &name, const Scheme &scheme): name(name), scheme(scheme) {}
 
     Relation(const string &name) : name(name) {}
@@ -80,7 +82,8 @@ public:
 
     Relation rename(vector<string> newNames)
     {
-        return Relation();
+        Relation output(name, newNames, tuples);
+        return output;
     }
 
     bool addTuple(const Tuple &tuple)

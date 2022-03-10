@@ -99,6 +99,8 @@ int main(int argc, char *argv[])
     vector<unsigned int> projectVec = {{0},{2}};
     Relation projection = relation.project(projectVec);
     Relation projectionSelect = result.project(projectVec);
+    Relation rename = relation.rename({{"'Number'"}, {"'Student'"}, {"'Studying:'"}});
+
 
 
     cout << "select Major='CS' result:" << endl;
@@ -107,6 +109,8 @@ int main(int argc, char *argv[])
     cout << projection.toString();
     cout << "projectSelect {0,1} result:" << endl;
     cout << projectionSelect.toString();
+    cout << "rename result:" << endl;
+    cout << rename.toString();
 
 //    cout << Database.toString();
     return 0;
