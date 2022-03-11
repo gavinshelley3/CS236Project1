@@ -18,7 +18,7 @@ public:
     vector<Predicate> facts;
     vector<Rule> rules;
     vector<Predicate> queries;
-    DatalogProgram() { }
+    DatalogProgram() {}
     DatalogProgram(const vector<Predicate> &schemes, const vector<Predicate> &facts, const vector<Rule> &rules,
                    const vector<Predicate> &queries) : schemes(schemes), facts(facts), rules(rules), queries(queries) {
         this->schemes = schemes;
@@ -78,10 +78,10 @@ public:
 
     string toString() {
         stringstream ss;
-        ss << "Queries(" << queries.size() << "):" << endl;
+//        ss << "Queries(" << queries.size() << "):" << endl;
         for (unsigned int i = 0; i < queries.size(); i++) {
             ss << queries.at(i).toString() << "?" << endl;
-            ss << " " << endl;
+            ss << "";
         }
 
 

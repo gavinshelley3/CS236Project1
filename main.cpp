@@ -16,6 +16,7 @@
 #include "Tuple.h"
 #include "Relation.h"
 #include "Database.h"
+#include "Interpreter.h"
 using namespace std;
 
 int main(int argc, char *argv[])
@@ -67,51 +68,55 @@ int main(int argc, char *argv[])
             parser.parse();
             DatalogProgram DataProg = parser.getDatalogProgram();
             cout << /*"Success!\n" <<*/ DataProg.toString();
+            Interpreter interpreter(DataProg);
+            interpreter.run();
         }
         catch (Token errorToken) {
             cout << /*"Failure!\n  " <<*/ errorToken.toString() << endl;
         }
 
-    vector<string> names = {"ID", "Name", "Major"};
-
-    Scheme scheme(names);
-
-    Relation relation("student", scheme);
-
-    vector<string> values[] = {
-        {"'16'", "'Ann'", "'CS'"},
-        {"'32'", "'Bob'", "'CS'"},
-        {"'64'", "'Ned'", "'EE'"},
-        {"'52'", "'Jim'", "'EE'"},
-    };
-
-    for (auto &value : values)
-    {
-        Tuple tuple(value);
-        cout << tuple.toString(scheme) << endl;
-        relation.addTuple(tuple);
-    }
-
-    cout << "relation:" << endl;
-    cout << relation.toString();
-
-    Relation result = relation.select(2, "'CS'");
-    vector<unsigned int> projectVec = {{0},{2}};
-    Relation projection = relation.project(projectVec);
-    Relation projectionSelect = result.project(projectVec);
-    Relation rename = relation.rename({{"'Number'"}, {"'Student'"}, {"'Studying:'"}});
 
 
-
-    cout << "select Major='CS' result:" << endl;
-    cout << result.toString();
-    cout << "project {0,1} result:" << endl;
-    cout << projection.toString();
-    cout << "projectSelect {0,1} result:" << endl;
-    cout << projectionSelect.toString();
-    cout << "rename result:" << endl;
-    cout << rename.toString();
-
+//    vector<string> names = {"ID", "Name", "Major"};
+//
+//    Scheme scheme(names);
+//
+//    Relation relation("student", scheme);
+//
+//    vector<string> values[] = {
+//        {"'16'", "'Ann'", "'CS'"},
+//        {"'32'", "'Bob'", "'CS'"},
+//        {"'64'", "'Ned'", "'EE'"},
+//        {"'52'", "'Jim'", "'EE'"},
+//    };
+//
+//    for (auto &value : values)
+//    {
+//        Tuple tuple(value);
+//        cout << tuple.toString(scheme) << endl;
+//        relation.addTuple(tuple);
+//    }
+//
+//    cout << "relation:" << endl;
+//    cout << relation.toString();
+//
+//    Relation result = relation.select(2, "'CS'");
+//    vector<unsigned int> projectVec = {{0},{2}};
+//    Relation projection = relation.project(projectVec);
+//    Relation projectionSelect = result.project(projectVec);
+//    Relation rename = relation.rename({{"'Number'"}, {"'Student'"}, {"'Studying:'"}});
+//
+//
+//
+//    cout << "select Major='CS' result:" << endl;
+//    cout << result.toString();
+//    cout << "project {0,1} result:" << endl;
+//    cout << projection.toString();
+//    cout << "projectSelect {0,1} result:" << endl;
+//    cout << projectionSelect.toString();
+//    cout << "rename result:" << endl;
+//    cout << rename.toString();
+//
 //    cout << Database.toString();
     return 0;
 }

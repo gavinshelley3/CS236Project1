@@ -21,9 +21,9 @@ public:
 //          Evaluate Facts
     evalFacts();
 //          Evaluate Rules
-
+    evalRules();
 //          Evaluate Queries
-
+    evalQueries();
     }
 
     void evalSchemes() {
@@ -37,7 +37,6 @@ public:
             newRelation.setName(p.getName());
             database.insert(newRelation);
         }
-
 //     For each scheme s in program.schemes
 //          Make a new relation
 //          Make a new scheme newScheme
@@ -121,9 +120,20 @@ public:
             }
         }
         //project(colToKeep)
+        currRelation = currRelation.project(colsToKeep);
         //rename(names)
+        currRelation = currRelation.rename(names);
         return currRelation;
     }
+
+    DatalogProgram getDatalogProgram() {
+        return program;
+    }
+
+    Database getDatabase() {
+        return database;
+    }
+
 };
 
 
