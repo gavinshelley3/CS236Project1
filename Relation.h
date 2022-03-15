@@ -102,8 +102,11 @@ public:
         for (auto &tuple : tuples)
             if (tuple.size() != 0)
             {
-                out << "  " << tuple.toString(scheme) << endl;
+                out << ":  " << tuple.toString(scheme) << endl;
             }
+        else {
+            out << "empty" << endl;
+        }
         return out.str();
     }
 

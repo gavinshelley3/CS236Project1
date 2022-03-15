@@ -26,8 +26,9 @@ public:
 //            throw error;
         }
         for (unsigned i = 0; i < size(); i++) {
-            if (i > 0)
+            if (i > 0) {
                 out << ", ";
+            }
             const string& name = scheme.at(i);
             const string& value = at(i);
             out << name << "=" << value;

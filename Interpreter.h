@@ -15,6 +15,10 @@ private:
 public:
     Interpreter(DatalogProgram program) : program(program) {}
 
+    Interpreter(const Database &database) : database(database) {}
+
+    Interpreter(const DatalogProgram &program, const Database &database) : program(program), database(database) {}
+
     void run() {
 //          Evaluate Schemes
     evalSchemes();
@@ -32,6 +36,7 @@ public:
             vector<string> contents;
             for (Parameter param : p.getParameters()) {
                 contents.push_back(param.toString());
+                cout << param.toString() << endl;
             }
             newRelation.setScheme(Scheme(contents));
             newRelation.setName(p.getName());
@@ -53,8 +58,13 @@ public:
             vector<string> contents;
             for (Parameter param : p.getParameters()) {
                 contents.push_back(param.toString());
+                cout << param.toString() << endl;
             }
-            r.addTuple(Tuple{contents});
+            Tuple t = contents;
+            bool added = false;
+            added = r.addTuple(t);
+            if (added)
+                cout << "true" << endl;
         }
 //     For each fact f in program.facts
 //          Get relation r by reference from the database
@@ -78,9 +88,9 @@ public:
 
     void evalQueries() {
         for (Predicate p : program.getQueries()) {
-            evaluatePredicate(p);
             Relation r = evaluatePredicate(p);
-            cout << r.toString();
+            database.insert(r);
+            cout << r.toString() << "queries" << endl;
         }
 //          For each scheme s in program.schemes
 //          Make a new relation

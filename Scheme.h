@@ -35,7 +35,7 @@ public:
 //
 //     bool operator<(const Schemes s) {
 //          return this->attributes < s.attributes;
-//
+//    }
 //};
 
 

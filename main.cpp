@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
         try {
             parser.parse();
             DatalogProgram DataProg = parser.getDatalogProgram();
-            cout << /*"Success!\n" <<*/ DataProg.toString();
+//            cout << /*"Success!\n" <<*/ DataProg.toString();
             Interpreter interpreter(DataProg);
             interpreter.run();
         }
