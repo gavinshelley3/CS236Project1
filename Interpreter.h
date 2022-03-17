@@ -26,6 +26,8 @@ public:
     evalFacts();
 //          Evaluate Rules
     evalRules();
+//          Print
+    print();
 //          Evaluate Queries
     evalQueries();
     }
@@ -35,7 +37,7 @@ public:
             Relation newRelation;
             vector<string> contents;
             for (Parameter param : p.getParameters()) {
-                contents.push_back(param.toString());
+                contents.push_back(param.getValue());
                 cout << param.toString() << endl;
             }
             newRelation.setScheme(Scheme(contents));
@@ -57,14 +59,11 @@ public:
             Relation r = database.getRelationByRef(p.getName());
             vector<string> contents;
             for (Parameter param : p.getParameters()) {
-                contents.push_back(param.toString());
+                contents.push_back(param.getValue());
                 cout << param.toString() << endl;
             }
-            Tuple t = contents;
-            bool added = false;
-            added = r.addTuple(t);
-            if (added)
-                cout << "true" << endl;
+            r.addTuple(Tuple(contents));
+            database.insert(r);
         }
 //     For each fact f in program.facts
 //          Get relation r by reference from the database
@@ -88,9 +87,11 @@ public:
 
     void evalQueries() {
         for (Predicate p : program.getQueries()) {
+            cout << p.toString() << "? " << endl;
             Relation r = evaluatePredicate(p);
+            cout << "queries " << r.toString() << " queries" << endl;
             database.insert(r);
-            cout << r.toString() << "queries" << endl;
+
         }
 //          For each scheme s in program.schemes
 //          Make a new relation
@@ -116,15 +117,23 @@ public:
                 bool seenBefore = false;
                 //loop that checks through names and if currParam is found set seenBefore to true
                 for (unsigned int j = 0; j < names.size(); j++) {
-                    if (predicate.getParameters().at(i).toString() == names.at(j)) {
+                    if (predicate.getParameters().at(j).getValue() == currParem.getValue()) {
+                        currRelation = currRelation.select(i,j);
+                    }
+                    if (predicate.getParameters().at(i).getValue() == names.at(j)) {
                         seenBefore = true;
                     }
                     if (seenBefore) {
-                        currRelation = currRelation.select(i, j);
+//                        colsToKeep.push_back(i);
+                        names.push_back(predicate.getParameters().at(i).getValue());
+//                        currRelation = currRelation.select(i, colsToKeep.at(j));
                     }
                     else {
                         colsToKeep.push_back(i);
-                        names.push_back(currParem.toString());
+                        names.push_back(predicate.getParameters().at(i).getValue());
+//                        currRelation = currRelation.select(i, colsToKeep.at(j));
+//                        colsToKeep.push_back(i);
+//                        names.push_back(currParem.toString());
                     }
                 }
             }
@@ -142,6 +151,40 @@ public:
 
     Database getDatabase() {
         return database;
+    }
+
+    string print() {
+        stringstream ss;
+        database.toString();
+//        ss << "Queries(" << queries.size() << "):" << endl;
+//        for (unsigned int i = 0; i < database.numRelations(); i++) {
+//            for (auto &database : database.numRelations()) {
+//
+////            Relation numQueries = evaluatePredicate();
+//            if (database.numRelations() > 0) {
+//                ss << database.at(database.numRelations()).toString() << "? ";// << endl;
+//                ss << "";
+//            }
+//        }
+        return ss.str();
+
+
+//        Relation queryEvaluated = database.evaluateQuery(query);
+//
+//        cout << query.toString() << "? ";
+//
+//        if (queryEvaluated.size() > 0)
+//        {
+//            cout << "Yes(" << queryEvaluated.size() << ")" << endl;
+//        }
+//
+//        else
+//        {
+//            cout << "No" << endl;
+//        }
+//
+//        cout << queryEvaluated.toString();
+//    }
     }
 
 };

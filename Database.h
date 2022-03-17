@@ -24,7 +24,7 @@ public:
         dataMap.insert({r.getName(), r});
     }
 
-    unsigned int numTuples() {
+    unsigned int numRelations() {
         unsigned int i = 0;
         for (auto p : dataMap) {
             i += p.second.size();

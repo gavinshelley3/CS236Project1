@@ -67,9 +67,11 @@ int main(int argc, char *argv[])
         try {
             parser.parse();
             DatalogProgram DataProg = parser.getDatalogProgram();
-//            cout << /*"Success!\n" <<*/ DataProg.toString();
-            Interpreter interpreter(DataProg);
+            cout << /*"Success!\n" <<*/ DataProg.toString();
+            Database database;
+            Interpreter interpreter(DataProg, database);
             interpreter.run();
+            interpreter.print();
         }
         catch (Token errorToken) {
             cout << /*"Failure!\n  " <<*/ errorToken.toString() << endl;
