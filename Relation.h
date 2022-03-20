@@ -22,6 +22,10 @@ private:
 public:
     Relation(const string &name, const Scheme &scheme, const set<Tuple> &tuples) : name(name), scheme(scheme), tuples(tuples) {}
 
+    Relation(const string &name, const set<Tuple> &tuples) : name(name), tuples(tuples) {}
+
+    Relation(const Scheme &scheme, const set<Tuple> &tuples) : scheme(scheme), tuples(tuples) {}
+
     Relation(const string &name, const Scheme &scheme): name(name), scheme(scheme) {}
 
     Relation(const string &name) : name(name) {}
@@ -30,7 +34,7 @@ public:
 
     Relation select(unsigned int index, const string &value) const
     {
-        cout << "select 1" << endl;
+//        cout << "select 1" << endl;
         Relation output(name, scheme);
         for (auto &tuple : tuples)
         {
@@ -44,11 +48,8 @@ public:
 
     Relation select(unsigned int index1, unsigned int index2)
     {
-        cout << "select 2" << endl;
-        Relation output;
-        output.setName(name);
-        output.setScheme(scheme);
-
+//        cout << "select 2" << endl;
+        Relation output(name, scheme);
         for (Tuple tuple : tuples)
         {
             if (tuple.at(index1) == tuple.at(index2))
@@ -61,11 +62,11 @@ public:
 
     Relation project(vector<unsigned int> colsToKeep)
     {
-        cout << "project" << endl;
+//        cout << "project" << endl;
         Relation output(name);
-        vector<string> contentsScheme;
+        Scheme contentsScheme;
         for (Tuple tuple : tuples) {
-            vector<string> contentsTuple;
+            Tuple contentsTuple;
             for (unsigned int i = 0; i < colsToKeep.size(); i++) {
                 if (colsToKeep.at(i) <= tuple.size()) {
                     contentsTuple.push_back(tuple.at(colsToKeep.at(i)));
@@ -86,7 +87,7 @@ public:
 
     Relation rename(vector<string> newNames)
     {
-        cout << "rename" << endl;
+//        cout << "rename" << endl;
         Relation output(name, newNames, tuples);
         return output;
     }
@@ -106,12 +107,9 @@ public:
         stringstream out;
         for (Tuple tuple : tuples) {
             if (tuple.size() != 0) {
-                out << ":  " << tuple.toString(scheme) << endl;
-            } else {
-                out << "empty" << endl;
+                out << "  " << tuple.toString(scheme) << endl;
             }
         }
-        out << "toString";
         return out.str();
     }
 

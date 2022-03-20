@@ -21,8 +21,7 @@ public:
     string toString(const Scheme& scheme) const {
         stringstream out;
         if (scheme.size() != size()) {
-            string error = "Scheme and Tuple are of different sizes";
-            cout << error << endl;
+            out << "Scheme and Tuple are of different sizes" << endl;
 //            throw error;
         }
         for (unsigned i = 0; i < size(); i++) {

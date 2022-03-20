@@ -29,6 +29,11 @@ public:
         return data;
     }
 
+    const char &at(unsigned int index) const
+    {
+        return data.at(index);
+    }
+
     string toString() {
         stringstream ss;
         ss << data;
