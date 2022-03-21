@@ -118,6 +118,7 @@ public:
     void evalQueries() {
         for (auto &query : program.getQueries()) {
             Relation queryEval = evaluatePredicate(query);
+            database.insert(queryEval);
             cout << query.toString() << "? ";
             if (queryEval.size() > 0) {
                 cout << "Yes(" << queryEval.size() << ")" << endl;
@@ -187,7 +188,7 @@ public:
                         newNames.push_back(predicate.getParameters().at(i).getValue());
 //                        colsToKeep.push_back(i);
 //                        names.push_back(predicate.getParameters().at(i).getValue());
-//                        currRelation = currRelation.select(i, colsToKeep.at(j));
+//                        currRelation = currRelation.select(i, newColsToKeep.at(j));
                     }
 //                    else {
 //                        colsToKeep.push_back(i);
@@ -199,10 +200,11 @@ public:
                 }
             }
         }
+//        colsToKeep = {0, 1};
         //project(colToKeep)
-        currRelation = currRelation.project(colsToKeep);
+        currRelation = currRelation.project(newColsToKeep);
         //rename(names)
-        currRelation = currRelation.rename(names);
+//        currRelation = currRelation.rename(names);
         return currRelation;
     }
 
@@ -233,6 +235,7 @@ public:
 
                 else
                 {
+
                     columnsToKeep.push_back(i);
                     names.push_back(currentParameter.toString());
                 }

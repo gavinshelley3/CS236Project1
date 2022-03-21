@@ -63,26 +63,50 @@ public:
     Relation project(vector<unsigned int> colsToKeep)
     {
 //        cout << "project" << endl;
-        Relation output(name);
-        Scheme contentsScheme;
-        for (Tuple tuple : tuples) {
-            Tuple contentsTuple;
-            for (unsigned int i = 0; i < colsToKeep.size(); i++) {
-                if (colsToKeep.at(i) <= tuple.size()) {
-                    contentsTuple.push_back(tuple.at(colsToKeep.at(i)));
-                }
+//        Relation output(name);
+//        Scheme contentsScheme;
+//        for (Tuple tuple : tuples) {
+//            Tuple contentsTuple;
+//            for (unsigned int i = 0; i < colsToKeep.size(); i++) {
+//                if (colsToKeep.at(i) <= tuple.size()) {
+//                    contentsTuple.push_back(tuple.at(colsToKeep.at(i)));
+//                }
+//            }
+//            Tuple tempTuple(contentsTuple);
+//            output.addTuple(tempTuple);
+//        }
+//        for (unsigned int i = 0; i < colsToKeep.size(); i++) {
+//            if (colsToKeep.at(i) <= scheme.size()) {
+//                contentsScheme.push_back(scheme.at(colsToKeep.at(i)));
+//                Scheme tempScheme(contentsScheme);
+//                output.setScheme(tempScheme);
+//            }
+//        }
+//        return output;
+
+
+        Relation output; // not pass in something??
+        output.setName(name);
+
+        Scheme TempScheme;
+        for (unsigned int i = 0; i < colsToKeep.size(); i++)
+        {
+            TempScheme.push_back(scheme.at(colsToKeep.at(i)));
+        }
+        output.setScheme(TempScheme);
+
+        for (auto tuple : tuples)
+        {
+            Tuple tempTuple;
+            for (unsigned j = 0; j < colsToKeep.size(); j++)
+            {
+                tempTuple.push_back(tuple.at(colsToKeep.at(j)));
             }
-            Tuple tempTuple(contentsTuple);
             output.addTuple(tempTuple);
         }
-        for (unsigned int i = 0; i < colsToKeep.size(); i++) {
-            if (colsToKeep.at(i) <= scheme.size()) {
-                contentsScheme.push_back(scheme.at(colsToKeep.at(i)));
-                Scheme tempScheme(contentsScheme);
-                output.setScheme(tempScheme);
-            }
-        }
         return output;
+
+
     }
 
     Relation rename(vector<string> newNames)
