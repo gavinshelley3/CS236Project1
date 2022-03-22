@@ -32,102 +32,84 @@ public:
 
     Relation() {}
 
-    Relation select(unsigned int index, const string &value) const
-    {
+    Relation select(unsigned int index, const string &value) const {
 //        cout << "select 1" << endl;
         Relation output(name, scheme);
-        for (auto &tuple : tuples)
-        {
-            if (tuple.at(index) == value)
-            {
+        for (auto &tuple : tuples) {
+            if (tuple.at(index) == value) {
                 output.addTuple(tuple);
             }
         }
         return output;
     }
 
-    Relation select(unsigned int index1, unsigned int index2)
-    {
+    Relation select(unsigned int index1, unsigned int index2) {
 //        cout << "select 2" << endl;
         Relation output(name, scheme);
-        for (Tuple tuple : tuples)
-        {
-            if (tuple.at(index1) == tuple.at(index2))
-            {
+        for (Tuple tuple : tuples) {
+            if (tuple.at(index1) == tuple.at(index2)) {
                 output.addTuple(tuple);
             }
         }
         return output;
     }
 
-    Relation project(vector<unsigned int> colsToKeep)
-    {
+    Relation project(vector<unsigned int> colsToKeep) {
 //        cout << "project" << endl;
-//        Relation output(name);
-//        Scheme contentsScheme;
-//        for (Tuple tuple : tuples) {
-//            Tuple contentsTuple;
-//            for (unsigned int i = 0; i < colsToKeep.size(); i++) {
-//                if (colsToKeep.at(i) <= tuple.size()) {
-//                    contentsTuple.push_back(tuple.at(colsToKeep.at(i)));
-//                }
-//            }
-//            Tuple tempTuple(contentsTuple);
-//            output.addTuple(tempTuple);
-//        }
-//        for (unsigned int i = 0; i < colsToKeep.size(); i++) {
-//            if (colsToKeep.at(i) <= scheme.size()) {
-//                contentsScheme.push_back(scheme.at(colsToKeep.at(i)));
-//                Scheme tempScheme(contentsScheme);
-//                output.setScheme(tempScheme);
-//            }
-//        }
-//        return output;
-
-
-        Relation output; // not pass in something??
-        output.setName(name);
-
-        Scheme TempScheme;
-        for (unsigned int i = 0; i < colsToKeep.size(); i++)
-        {
-            TempScheme.push_back(scheme.at(colsToKeep.at(i)));
-        }
-        output.setScheme(TempScheme);
-
-        for (auto tuple : tuples)
-        {
-            Tuple tempTuple;
-            for (unsigned j = 0; j < colsToKeep.size(); j++)
-            {
-                tempTuple.push_back(tuple.at(colsToKeep.at(j)));
+        Relation output(name);
+        Scheme contentsScheme;
+        for (unsigned int i = 0; i < colsToKeep.size(); i++) {
+            if (colsToKeep.at(i) <= scheme.size()) {
+                contentsScheme.push_back(scheme.at(colsToKeep.at(i)));
             }
-            output.addTuple(tempTuple);
+        }
+        output.setScheme(contentsScheme);
+        for (Tuple tuple : tuples) {
+            Tuple contentsTuple;
+            for (unsigned int i = 0; i < colsToKeep.size(); i++) {
+                if (colsToKeep.at(i) <= tuple.size()) {
+                    contentsTuple.push_back(tuple.at(colsToKeep.at(i)));
+                }
+            }
+            output.addTuple(contentsTuple);
         }
         return output;
 
-
+//
+//        Relation output; // not pass in something??
+//        output.setName(name);
+//
+//        Scheme TempScheme;
+//        for (unsigned int i = 0; i < colsToKeep.size(); i++) {
+//            TempScheme.push_back(scheme.at(colsToKeep.at(i)));
+//        }
+//        output.setScheme(TempScheme);
+//
+//        for (auto tuple : tuples) {
+//            Tuple tempTuple;
+//            for (unsigned j = 0; j < colsToKeep.size(); j++) {
+//                tempTuple.push_back(tuple.at(colsToKeep.at(j)));
+//            }
+//            output.addTuple(tempTuple);
+//        }
+//        return output;
     }
 
-    Relation rename(vector<string> newNames)
-    {
+    Relation rename(vector<string> newNames) {
 //        cout << "rename" << endl;
         Relation output(name, newNames, tuples);
         return output;
     }
 
-    bool addTuple(const Tuple &tuple)
-    {
+    bool addTuple(const Tuple &tuple) {
         return tuples.insert(tuple).second;
     }
 
-    unsigned int size()
-    {
+    unsigned int size() {
         return tuples.size();
     }
 
-    string toString() const
-    {
+    string toString() const {
         stringstream out;
         for (Tuple tuple : tuples) {
             if (tuple.size() != 0) {
@@ -137,23 +119,19 @@ public:
         return out.str();
     }
 
-    const string &getName() const
-    {
+    const string &getName() const {
         return name;
     }
 
-    void setName(const string &name)
-    {
+    void setName(const string &name) {
         Relation::name = name;
     }
 
-    const Scheme &getScheme() const
-    {
+    const Scheme &getScheme() const {
         return scheme;
     }
 
-    void setScheme(const Scheme &scheme)
-    {
+    void setScheme(const Scheme &scheme) {
         Relation::scheme = scheme;
     }
 };

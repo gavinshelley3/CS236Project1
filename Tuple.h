@@ -24,7 +24,7 @@ public:
             out << "Scheme and Tuple are of different sizes" << endl;
 //            throw error;
         }
-        for (unsigned i = 0; i < size(); i++) {
+        for (unsigned i = 0; i < scheme.size(); i++) {
             if (i > 0) {
                 out << ", ";
             }

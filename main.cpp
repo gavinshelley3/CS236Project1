@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
             Database database;
             Interpreter interpreter(DataProg, database);
             interpreter.run();
-            interpreter.print();
+//            interpreter.print();
         }
         catch (Token errorToken) {
             cout << /*"Failure!\n  " <<*/ errorToken.toString() << endl;

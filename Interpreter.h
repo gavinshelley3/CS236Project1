@@ -27,7 +27,7 @@ public:
 //          Evaluate Rules
     evalRules();
 //          Print
-    print();
+//    print();
 //          Evaluate Queries
 //        for (Predicate p : program.getQueries())
 //        {
@@ -81,11 +81,12 @@ public:
             vector<Parameter> params = tuple.getParameters();
             Tuple tup = Tuple(toVector(params));
             r.addTuple(tup);
+            database.insert(r);
         }
 
 
 //        for (Predicate p : program.getFacts()) {
-//            Relation r = database.getRelationByRef(p.getName());
+//            Relation &r = database.getRelationByRef(p.getName());
 //            vector<string> contents;
 //            for (Parameter param : p.getParameters()) {
 //                contents.push_back(param.getValue());
@@ -93,7 +94,7 @@ public:
 //            }
 //            r.addTuple(Tuple(contents));
 ////            cout << r.toString() << endl;
-//            database.insert(r);
+////            database.insert(r);
 //        }
 //     For each fact f in program.facts
 //          Get relation r by reference from the database
@@ -118,7 +119,7 @@ public:
     void evalQueries() {
         for (auto &query : program.getQueries()) {
             Relation queryEval = evaluatePredicate(query);
-            database.insert(queryEval);
+//            database.insert(queryEval);
             cout << query.toString() << "? ";
             if (queryEval.size() > 0) {
                 cout << "Yes(" << queryEval.size() << ")" << endl;
@@ -156,57 +157,98 @@ public:
         vector<string> names;
         for (unsigned int i = 0; i < predicate.getParameters().size(); i++) {
             Parameter currParem = predicate.getParameters().at(i);
-            if (currParem.toString().at(0) == '\'') {
+            if (currParem.at(0) == '\'') {
                 currRelation = currRelation.select(i, currParem.getValue());
             } else {
-                for (unsigned int j = 0; j < predicate.getParameters().size(); j++) {
-                    if (currParem.getValue() == predicate.getParameters().at(j).getValue()) {
-                        currRelation = currRelation.select(i, j);
-                    }
-                }
-            }
-        }
-        vector<unsigned int> newColsToKeep;
-        vector<string> newNames;
-        for (unsigned int i = 0; i < predicate.getParameters().size(); i++) {
-            bool seenBefore = false;
-            Parameter value = predicate.getParameters().at(i);
-            if (predicate.getParameters().at(i).at(0) != '\'') {
-                //loop that checks through names and if currParam is found set seenBefore to true
+                bool seenBefore = false;
+                unsigned int j = 0;
+//                Loop that checks through names and if currParam is found set seenBefore to true
                 for (unsigned int j = 0; j < names.size(); j++) {
-                    if (value.getValue() == newNames.at(j)) {
+                    if (currParem.getValue() == names.at(j)) {
                         seenBefore = true;
                     }
-//                    if (predicate.getParameters().at(j).getValue() == currParem.getValue()) {
-//                        currRelation = currRelation.select(i,j);
-//                    }
-//                    if (predicate.getParameters().at(i).getValue() == names.at(j)) {
-//                        seenBefore = true;
-//                    }
-                    if (!seenBefore) {
-                        newColsToKeep.push_back(i);
-                        newNames.push_back(predicate.getParameters().at(i).getValue());
-//                        colsToKeep.push_back(i);
-//                        names.push_back(predicate.getParameters().at(i).getValue());
-//                        currRelation = currRelation.select(i, newColsToKeep.at(j));
-                    }
-//                    else {
-//                        colsToKeep.push_back(i);
-//                        names.push_back(predicate.getParameters().at(i).getValue());
-////                        currRelation = currRelation.select(i, colsToKeep.at(j));
-////                        colsToKeep.push_back(i);
-////                        names.push_back(currParem.toString());
-//                    }
                 }
+                for (unsigned int k = 0; k < predicate.getParameters().size(); k++) {
+                    if (currParem.getValue() == predicate.getParameters().at(k).getValue()) {
+                        currRelation = currRelation.select(i, k);
+                    }
+                }
+                if (seenBefore) {
+                    currRelation = currRelation.select(i, colsToKeep.at(j));
+                }
+                else {
+                        colsToKeep.push_back(i);
+                        names.push_back(currParem.getValue());
+                }
+
             }
         }
-//        colsToKeep = {0, 1};
-        //project(colToKeep)
-        currRelation = currRelation.project(newColsToKeep);
-        //rename(names)
-//        currRelation = currRelation.rename(names);
+        currRelation = currRelation.project(colsToKeep);
+        currRelation = currRelation.rename(names);
         return currRelation;
     }
+
+
+
+
+
+//        Relation currRelation = database.getRelationCopy(predicate.getName());
+//        vector<unsigned int> colsToKeep;
+//        vector<string> names;
+//        for (unsigned int i = 0; i < predicate.getParameters().size(); i++) {
+//            Parameter currParem = predicate.getParameters().at(i);
+//            if (currParem.toString().at(0) == '\'') {
+//                currRelation = currRelation.select(i, currParem.getValue());
+//            } else {
+//                for (unsigned int j = 0; j < predicate.getParameters().size(); j++) {
+//                    if (currParem.getValue() == predicate.getParameters().at(j).getValue()) {
+//                        currRelation = currRelation.select(i, j);
+//                    }
+//                }
+//            }
+//        }
+//        vector<unsigned int> newColsToKeep;
+//        vector<string> newNames;
+//        for (unsigned int i = 0; i < predicate.getParameters().size(); i++) {
+//            Parameter value = predicate.getParameters().at(i);
+//            if (predicate.getParameters().at(i).at(0) != '\'') {
+//                //loop that checks through names and if currParam is found set seenBefore to true
+//                for (unsigned int j = 0; j < names.size(); j++) {
+//                    bool seenBefore = false;
+//
+//                    if (value.getValue() == newNames.at(j)) {
+//                        seenBefore = true;
+//                    }
+////                    if (predicate.getParameters().at(j).getValue() == currParem.getValue()) {
+////                        currRelation = currRelation.select(i,j);
+////                    }
+////                    if (predicate.getParameters().at(i).getValue() == names.at(j)) {
+////                        seenBefore = true;
+////                    }
+//                    if (!seenBefore) {
+//                        newColsToKeep.push_back(i);
+//                        newNames.push_back(predicate.getParameters().at(i).getValue());
+////                        colsToKeep.push_back(i);
+////                        names.push_back(predicate.getParameters().at(i).getValue());
+////                        currRelation = currRelation.select(i, newColsToKeep.at(j));
+//                    }
+////                    else {
+////                        colsToKeep.push_back(i);
+////                        names.push_back(predicate.getParameters().at(i).getValue());
+//////                        currRelation = currRelation.select(i, colsToKeep.at(j));
+//////                        colsToKeep.push_back(i);
+//////                        names.push_back(currParem.toString());
+////                    }
+//                }
+//            }
+//        }
+////        newColsToKeep = {0, 1};
+//        //project(colToKeep)
+//        currRelation = currRelation.project(newColsToKeep);
+//        //rename(names)
+////        currRelation = currRelation.rename(names);
+//        return currRelation;
+//    }
 
     Relation evalPredicate(Predicate predicate)
     {
