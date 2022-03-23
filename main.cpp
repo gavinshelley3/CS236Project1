@@ -1,20 +1,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <fstream>
-#include <sstream>
-#include <cctype>
-#include <cstdio>
 #include "Token.h"
 #include "Scanner.h"
 #include "Parser.h"
 #include "DatalogProgram.h"
-#include "Rule.h"
-#include "Predicate.h"
-#include "Parameter.h"
-#include "Scheme.h"
-#include "Tuple.h"
-#include "Relation.h"
 #include "Database.h"
 #include "Interpreter.h"
 using namespace std;
@@ -51,10 +41,6 @@ int main(int argc, char *argv[])
 
 
         int total = 0;
-        if (scanner.input.empty()) {
-            //        cout << scanner.scanToken(total).toString() << endl;
-            //        total ++;
-        }
         while (!scanner.input.empty()) {
             Token currToken = scanner.scanToken(total);
             if (currToken.getType() != TokenType::COMMENT) {
@@ -63,19 +49,11 @@ int main(int argc, char *argv[])
         }
 
         Parser parser = Parser(tokens);
-
-        try {
-            parser.parse();
-            DatalogProgram DataProg = parser.getDatalogProgram();
-//            cout << /*"Success!\n" <<*/ DataProg.toString();
-            Database database;
-            Interpreter interpreter(DataProg, database);
-            interpreter.run();
-//            interpreter.print();
-        }
-        catch (Token errorToken) {
-            cout << /*"Failure!\n  " <<*/ errorToken.toString() << endl;
-        }
+        parser.parse();
+        DatalogProgram DataProg = parser.getDatalogProgram();
+        Database database;
+        Interpreter interpreter(DataProg, database);
+        interpreter.run();
 
 
 

@@ -12,7 +12,6 @@ class Parameter {
     //parameter	->	STRING | ID
 public:
     string data;
-    bool isConstant = true;
     Parameter(const string &data) : data(data) {}
     Parameter() {}
 

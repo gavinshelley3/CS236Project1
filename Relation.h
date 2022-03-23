@@ -32,7 +32,6 @@ public:
     Relation() {}
 
     Relation select(unsigned int index, const string &value) const {
-//        cout << "select 1" << endl;
         Relation output(name, scheme);
         for (auto &tuple : tuples) {
             if (tuple.at(index) == value) {
@@ -43,7 +42,6 @@ public:
     }
 
     Relation select(unsigned int index1, unsigned int index2) {
-//        cout << "select 2" << endl;
         Relation output(name, scheme);
         for (Tuple tuple : tuples) {
             if (tuple.at(index1) == tuple.at(index2)) {
@@ -54,7 +52,6 @@ public:
     }
 
     Relation project(vector<unsigned int> colsToKeep) {
-//        cout << "project" << endl;
         Relation output(name);
         Scheme contentsScheme;
         for (unsigned int i = 0; i < colsToKeep.size(); i++) {
@@ -73,29 +70,9 @@ public:
             output.addTuple(contentsTuple);
         }
         return output;
-
-//
-//        Relation output; // not pass in something??
-//        output.setName(name);
-//
-//        Scheme TempScheme;
-//        for (unsigned int i = 0; i < colsToKeep.size(); i++) {
-//            TempScheme.push_back(scheme.at(colsToKeep.at(i)));
-//        }
-//        output.setScheme(TempScheme);
-//
-//        for (auto tuple : tuples) {
-//            Tuple tempTuple;
-//            for (unsigned j = 0; j < colsToKeep.size(); j++) {
-//                tempTuple.push_back(tuple.at(colsToKeep.at(j)));
-//            }
-//            output.addTuple(tempTuple);
-//        }
-//        return output;
     }
 
     Relation rename(vector<string> newNames) {
-//        cout << "rename" << endl;
         Relation output(name, newNames, tuples);
         return output;
     }

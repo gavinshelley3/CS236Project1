@@ -22,7 +22,6 @@ private:
     TokenType type;
     string value;
     unsigned int lineNum;
-    //unsigned int tempLineNum;
 public:
     Token(TokenType type, const string &value, unsigned int lineNum) : type(type), value(value), lineNum(lineNum) {}
 

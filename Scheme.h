@@ -17,28 +17,4 @@ public:
     Scheme() {}
 };
 
-//class Scheme {
-//private:
-//    vector<string> attributes;
-//public:
-//    string at (unsigned int index) {
-//        return attributes. at(index);
-//    }
-//
-//    unsigned int size() {
-//        return attributes.size();
-//    }
-//
-//    void push_back(string newAttribute) {
-//        attributes.push_back(newAttribute);
-//    }
-//
-//     bool operator<(const Schemes s) {
-//          return this->attributes < s.attributes;
-//    }
-//};
-
-
-
-
 #endif //CS236PROJECT1_SCHEME_H

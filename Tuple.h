@@ -22,7 +22,6 @@ public:
         stringstream out;
         if (scheme.size() != size()) {
             out << "Scheme and Tuple are of different sizes" << endl;
-//            throw error;
         }
         for (unsigned i = 0; i < scheme.size(); i++) {
             if (i > 0) {
@@ -36,29 +35,4 @@ public:
     }
 };
 
-//class Tuple {
-//
-//private:
-//
-//  vector<string> values;
-//
-//public:
-//
-//  Tuple(vector<string> values) : values(values) { }
-//
-//  unsigned size() const {
-//    return values.size();
-//  }
-//
-//  const string& at(int index) const {
-//    return values.at(index);
-//  }
-//
-//  bool operator<(const Tuple t) const {
-//    return values < t.values;
-//  }
-//
-//  // TODO: add more delegation functions as needed
-//
-//};
 #endif //CS236PROJECT1_TUPLE_H
