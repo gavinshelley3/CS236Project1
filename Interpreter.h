@@ -161,7 +161,7 @@ public:
                 currRelation = currRelation.select(i, currParem.getValue());
             } else {
                 bool seenBefore = false;
-                unsigned int j = 0;
+//                unsigned int j = 0;
 //                Loop that checks through names and if currParam is found set seenBefore to true
                 for (unsigned int j = 0; j < names.size(); j++) {
                     if (currParem.getValue() == names.at(j)) {
@@ -173,14 +173,13 @@ public:
                         currRelation = currRelation.select(i, k);
                     }
                 }
-                if (seenBefore) {
-                    currRelation = currRelation.select(i, colsToKeep.at(j));
+//                if (seenBefore) {
+//                    currRelation = currRelation.select(i, colsToKeep.at(j));
+//                }
+                if (!seenBefore) {
+                    colsToKeep.push_back(i);
+                    names.push_back(currParem.getValue());
                 }
-                else {
-                        colsToKeep.push_back(i);
-                        names.push_back(currParem.getValue());
-                }
-
             }
         }
         currRelation = currRelation.project(colsToKeep);
