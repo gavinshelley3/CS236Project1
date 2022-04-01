@@ -41,6 +41,14 @@ public:
         }
         return out.str();
     }
+
+    unsigned int size() {
+        unsigned int count = 0;
+        for (auto pairP : dataMap) {
+            count += pairP.second.size();
+        }
+        return count;
+    }
 };
 
 

@@ -63,28 +63,29 @@ public:
     }
 
     void evalRules() {
-//          For each scheme s in program.schemes
-//          Make a new relation
-//          Make a new scheme newScheme
-//          Set name of relation to name of s
-//          For each parameter p in s
-//          Add p.toString into newScheme
-//          Add newScheme into r
-//          Add r to database
+        evalRuleList(program.getRules());
+        unsigned int before = 0;
+        unsigned int after = 0;
+        do {
+            before = database.size();
+            singlePass(program.getRules());
+            after = database.size();
+        }
+        while(before != after);
     }
 
 
     void evalQueries() {
         for (auto &query : program.getQueries()) {
             Relation queryEval = evaluatePredicate(query);
-            cout << query.toString() << "? ";
-            if (queryEval.size() > 0) {
-                cout << "Yes(" << queryEval.size() << ")" << endl;
-            }
-            else {
-                cout << "No" << endl;
-            }
-            cout << queryEval.toString();
+//            cout << query.toString() << "? ";
+//            if (queryEval.size() > 0) {
+//                cout << "Yes(" << queryEval.size() << ")" << endl;
+//            }                                                                         //Project 3 Print Out
+//            else {
+//                cout << "No" << endl;
+//            }
+//            cout << queryEval.toString();
         }
     }
 
@@ -118,6 +119,50 @@ public:
         currRelation = currRelation.project(colsToKeep);
         currRelation = currRelation.rename(names);
         return currRelation;
+    }
+
+    void evalRuleListFixedPointAlg(vector<Rule> rules) {
+
+    }
+
+    void evalRuleList(vector<Rule> rules) {
+        for (Rule currRule : rules) {
+            vector<Relation> bodyRelations;
+            for (Predicate currPredicate : currRule.getPredicates()) {
+                Relation currRelation = evaluatePredicate(currPredicate);
+                bodyRelations.push_back(currRelation);
+            }
+            Relation resultRelation = bodyRelations.at(0);
+            for (unsigned int i = 1; i < bodyRelations.size(); i++) {
+                resultRelation = resultRelation.natJoin(resultRelation, bodyRelations.at(i));
+            }
+
+            //Project
+            string name = currRule.getHeadPredicate().getName();
+            resultRelation = resultRelation.rename(database.getRelationByRef(name).getScheme());
+
+            database.getRelationByRef(name).unionize(resultRelation);
+        }
+    }
+
+    void singlePass(vector<Rule> rules) {
+        for (Rule currRule : rules) {
+            //join all the body predicates together in a single rule
+                //for each body predicate p call evaluatePredicate(p)
+                //join all those together into relation currRelation
+
+            //project()
+                //remove unused variables based on the head predicate
+                //loop that loops through all parameters of the head predicate and matches it to each individual ID in the scheme of the result/currRule
+                //project on vector of indexes that are the same
+            //rename()
+                //rename to have data that the original table had in the database
+                    //go to database and get relation out based on name of head predicate
+                    //rename to what that name was
+                //take every tuple and put it into database and if tuple was unique print it out
+            //unionize()
+                //print current Tuple if and only if it is unique
+        }
     }
 
     vector<string> toVector(vector<Parameter> vectorOfParameters) {

@@ -57,46 +57,68 @@ int main(int argc, char *argv[])
 
 
 
-//    vector<string> names = {"ID", "Name", "Major"};
-//
-//    Scheme scheme(names);
-//
-//    Relation relation("student", scheme);
-//
-//    vector<string> values[] = {
-//        {"'16'", "'Ann'", "'CS'"},
-//        {"'32'", "'Bob'", "'CS'"},
-//        {"'64'", "'Ned'", "'EE'"},
-//        {"'52'", "'Jim'", "'EE'"},
-//    };
-//
-//    for (auto &value : values)
-//    {
-//        Tuple tuple(value);
-//        cout << tuple.toString(scheme) << endl;
-//        relation.addTuple(tuple);
-//    }
-//
-//    cout << "relation:" << endl;
-//    cout << relation.toString();
-//
-//    Relation result = relation.select(2, "'CS'");
-//    vector<unsigned int> projectVec = {{0},{2}};
-//    Relation projection = relation.project(projectVec);
-//    Relation projectionSelect = result.project(projectVec);
-//    Relation rename = relation.rename({{"'Number'"}, {"'Student'"}, {"'Studying:'"}});
-//
-//
-//
-//    cout << "select Major='CS' result:" << endl;
-//    cout << result.toString();
-//    cout << "project {0,1} result:" << endl;
-//    cout << projection.toString();
-//    cout << "projectSelect {0,1} result:" << endl;
-//    cout << projectionSelect.toString();
-//    cout << "rename result:" << endl;
-//    cout << rename.toString();
-//
-//    cout << Database.toString();
+    Scheme scheme1( { "A", "B" } );
+    Scheme scheme2( { "B", "C" } );
+
+    Tuple tuple1( {"'1'", "'2'"} );
+    Tuple tuple2( {"'3'", "'4'"} );
+
+    Scheme scheme3( { "X", "Y" } );
+    Scheme scheme4( { "X", "Y", "Z" } );
+
+    Tuple tuple3( {"'1'", "'4'"} );
+    Tuple tuple4( {"'1'", "'2'", "'4'"} );
+
+
+    vector<pair<unsigned int, unsigned int>> overlap;
+    vector<unsigned int> uniqueColumns;
+
+    for (unsigned int i = 0; i < scheme4.size(); i++) {
+        bool isUnique = true;
+        for (unsigned int j = 0; j < scheme3.size(); j++) {
+            if (scheme4.at(i) == scheme3.at(j)) {
+                overlap.push_back({i,j});
+                isUnique = false;
+            }
+        }
+        if (isUnique) {
+            uniqueColumns.push_back(i);
+        }
+    }
+
+    Relation temp;
+    cout << temp.canJoin(tuple1, tuple2, overlap) << endl;
+    cout << temp.canJoin(tuple1, tuple2, overlap) << endl;
+    cout << temp.canJoin(tuple1, tuple4, overlap) << endl;
+    cout << temp.canJoin(tuple3, tuple4, overlap) << endl;
+
+
+    Relation studentRelation("students", Scheme( {"ID", "Name", "Major"} ));
+
+    vector<string> studentValues[] = {
+            {"'42'", "'Ann'", "'CS'"},
+            {"'64'", "'Ned'", "'EE'"},
+    };
+
+    for (auto& value : studentValues)
+        studentRelation.addTuple(Tuple(value));
+
+//    studentRelation.join(studentRelation);
+
+
+
+    Relation courseRelation("courses", Scheme( {"ID", "Course"} ));
+
+    vector<string> courseValues[] = {
+            {"'42'", "'CS 100'"},
+            {"'32'", "'CS 232'"},
+    };
+
+    for (auto& value : courseValues)
+        courseRelation.addTuple(Tuple(value));
+
+    studentRelation.join(courseRelation);
+
+
     return 0;
 }
