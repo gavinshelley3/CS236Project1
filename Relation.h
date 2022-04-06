@@ -83,11 +83,7 @@ public:
         //Identify overlap in the schemes(header)
         vector<pair<unsigned int, unsigned int>> overlap;
         vector<unsigned int> uniqueColumns;
-        // 0  1  2  3  4
-        // A, B, C, D
-        // D, C, B, A, F
-        //{{0,3}, {1,2}, {2,1}, {4,0}}
-        //{{4}}
+
 
         for (unsigned int i = 0; i < r2.getScheme().size(); i++) {
             bool isUnique = true;
@@ -105,8 +101,6 @@ public:
         //Combine your schemes
         output.setScheme(combineSchemes(r1.getScheme(), r2.getScheme(), uniqueColumns));
 
-
-
         //For each tuple
         for (Tuple t1 : r1.getTuples()) {
             for (Tuple t2 : r2.getTuples()) {
@@ -115,10 +109,6 @@ public:
                 }
             }
         }
-
-            //Check if you can combine them
-                //Combine them
-                //Insert into output Relation
 
                 return output;
     }
@@ -154,54 +144,6 @@ public:
             output.push_back(t2.at(uniqueColumns.at(i)));
         }
         return output;
-    }
-
-    static bool joinable(const Scheme& leftScheme, const Scheme& rightScheme, const Tuple& leftTuple, const Tuple& rightTuple) {
-        for (unsigned leftIndex = 0; leftIndex < leftScheme.size(); leftIndex++) {
-            bool isUnique = true;
-            const string& leftName = leftScheme.at(leftIndex);
-            const string& leftValue = leftTuple.at(leftIndex);
-            cout << "left name: " << leftName << " value: " << leftValue << endl;
-            for (unsigned rightIndex = 0; rightIndex < rightScheme.size(); rightIndex++) {
-                const string& rightName = rightScheme.at(rightIndex);
-                const string& rightValue = rightTuple.at(rightIndex);
-                cout << "right name: " << rightName << " value: " << rightValue << endl;
-                if (rightValue == leftValue) {
-                    isUnique = false;
-                }
-                if (isUnique) {
-
-                }
-            }
-        }
-
-
-//        for (unsigned int i = 0; i < r2.getScheme().size(); i++) {
-//            bool isUnique = true;
-//            for (unsigned int j = 0; j < r1.getScheme().size(); j++) {
-//                if (r2.getScheme().at(i) == r1.getScheme().at(j)) {
-//                    overlap.push_back({i,j});
-//                }
-//            }
-//            if (isUnique) {
-//                uniqueColumns.push_back(i);
-//            }
-//        }
-
-        return true;
-    }
-
-    Relation join(const Relation& r) {
-        const Scheme& leftScheme = scheme;
-        for (const Tuple& leftTuple : tuples) {
-            cout << "left tuple: " << leftTuple.toString(leftScheme) << endl;
-//        }
-            const Scheme& rightScheme = r.scheme;
-            for (const Tuple& rightTuple : r.tuples) {
-                cout << "right tuple: " << rightTuple.toString(rightScheme) << endl;
-            }
-        }
-        return Relation();
     }
 
     void unionize(Relation toAdd) {

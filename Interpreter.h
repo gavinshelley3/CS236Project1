@@ -69,7 +69,6 @@ public:
         evalRuleListFixedPointAlg(program.getRules());
     }
 
-
     void evalQueries() {
         cout << "Query Evaluation" << endl;
         for (auto &query : program.getQueries()) {
@@ -125,7 +124,6 @@ public:
             numPasses++;
             before = database.size();
             evalRuleList(program.getRules());
-//            singlePass(program.getRules());
             after = database.size();
         }
         while(before != after);
@@ -166,25 +164,6 @@ public:
         }
     }
 
-    void singlePass(vector<Rule> rules) {
-        for (Rule currRule : rules) {
-            //join all the body predicates together in a single rule
-                //for each body predicate p call evaluatePredicate(p)
-                //join all those together into relation currRelation
-
-            //project()
-                //remove unused variables based on the head predicate
-                //loop that loops through all parameters of the head predicate and matches it to each individual ID in the scheme of the result/currRule
-                //project on vector of indexes that are the same
-            //rename()
-                //rename to have data that the original table had in the database
-                    //go to database and get relation out based on name of head predicate
-                    //rename to what that name was
-                //take every tuple and put it into database and if tuple was unique print it out
-            //unionize()
-                //print current Tuple if and only if it is unique
-        }
-    }
 
     vector<string> toVector(vector<Parameter> vectorOfParameters) {
         vector<string> vecParam;
