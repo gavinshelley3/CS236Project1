@@ -115,6 +115,7 @@ public:
                 }
             }
         }
+
             //Check if you can combine them
                 //Combine them
                 //Insert into output Relation
@@ -210,7 +211,7 @@ public:
         for (Tuple tuple : toAdd.getTuples()) {
             if (addTuple(tuple)) {
                 if (tuple.size() > 0) {
-                    cout << tuple.toString(scheme) << endl;
+                    cout << "  " << tuple.toString(scheme) << endl;
                 }
             }
         }

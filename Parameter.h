@@ -6,6 +6,7 @@
 #define CS236PROJECT1_PARAMETER_H
 #include <iostream>
 #include <string>
+#include <vector>
 #include <sstream>
 
 class Parameter {

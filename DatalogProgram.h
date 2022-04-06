@@ -43,6 +43,14 @@ public:
         return facts;
     }
 
+    void setRules(vector<Rule> input) {
+        rules = input;
+    }
+
+    vector<Rule> getRules() {
+        return rules;
+    }
+
     void setQueries(vector<Predicate> input) {
         queries = input;
     }
@@ -51,13 +59,6 @@ public:
         return queries;
     }
 
-    void setRules(vector<Rule> input) {
-        rules = input;
-    }
-
-    vector<Rule> getRules() {
-        return rules;
-    }
 
     set<string> getDomain() {
         set<string> domain;

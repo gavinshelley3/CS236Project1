@@ -4,6 +4,8 @@
 
 #ifndef CS236PROJECT1_INTERPRETER_H
 #define CS236PROJECT1_INTERPRETER_H
+#include <string>
+#include <vector>
 #include "Database.h"
 #include "DatalogProgram.h"
 
@@ -63,29 +65,23 @@ public:
     }
 
     void evalRules() {
-        evalRuleList(program.getRules());
-        unsigned int before = 0;
-        unsigned int after = 0;
-        do {
-            before = database.size();
-            singlePass(program.getRules());
-            after = database.size();
-        }
-        while(before != after);
+        cout << "Rule Evaluation" << endl;
+        evalRuleListFixedPointAlg(program.getRules());
     }
 
 
     void evalQueries() {
+        cout << "Query Evaluation" << endl;
         for (auto &query : program.getQueries()) {
             Relation queryEval = evaluatePredicate(query);
-//            cout << query.toString() << "? ";
-//            if (queryEval.size() > 0) {
-//                cout << "Yes(" << queryEval.size() << ")" << endl;
-//            }                                                                         //Project 3 Print Out
-//            else {
-//                cout << "No" << endl;
-//            }
-//            cout << queryEval.toString();
+            cout << query.toString() << "? ";
+            if (queryEval.size() > 0) {
+                cout << "Yes(" << queryEval.size() << ")" << endl;
+            }                                                                         //Project 3 Print Out
+            else {
+                cout << "No" << endl;
+            }
+            cout << queryEval.toString();
         }
     }
 
@@ -122,11 +118,24 @@ public:
     }
 
     void evalRuleListFixedPointAlg(vector<Rule> rules) {
-
+        unsigned int before = 0;
+        unsigned int after = 0;
+        int numPasses = 0;
+        do {
+            numPasses++;
+            before = database.size();
+            evalRuleList(program.getRules());
+//            singlePass(program.getRules());
+            after = database.size();
+        }
+        while(before != after);
+        cout << endl << "Schemes populated after " << numPasses << " passes through the Rules." << endl << endl;
     }
 
     void evalRuleList(vector<Rule> rules) {
+        unsigned int ruleCount = 0;
         for (Rule currRule : rules) {
+            cout << currRule.toString() << "." << endl;
             vector<Relation> bodyRelations;
             for (Predicate currPredicate : currRule.getPredicates()) {
                 Relation currRelation = evaluatePredicate(currPredicate);
@@ -138,10 +147,22 @@ public:
             }
 
             //Project
+            vector<unsigned int> keepCols;
+            for (unsigned int j = 0; j < currRule.getHeadPredicate().getParameters().size(); j++) {
+                for (unsigned int k = 0; k < resultRelation.getScheme().size(); k++) {
+                    if (currRule.getHeadPredicate().getParameters().at(j).getValue() == resultRelation.getScheme().at(k)) {
+                        keepCols.push_back(k);
+                    }
+                }
+            }
+            resultRelation = resultRelation.project(keepCols);
+
+
             string name = currRule.getHeadPredicate().getName();
             resultRelation = resultRelation.rename(database.getRelationByRef(name).getScheme());
 
             database.getRelationByRef(name).unionize(resultRelation);
+            ruleCount++;
         }
     }
 
